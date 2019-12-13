@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">    
+    <title>IFE ECMAScript</title>
+</head>
+<body>        
+    <input id="first-number" type="number" value="0" placeholder="第一个数字">
+    <input id="second-number" type="number" value="0" placeholder="第二个数字">
+    <button id="add-btn" onclick="compute(event)">加</button>
+    <button id="minus-btn" onclick="compute(event)">减</button>
+    <button id="times-btn" onclick="compute(event)">乘</button>
+    <button id="divide-btn" onclick="compute(event)">除</button>
+    <p id="result">运算结果</p>
+    <script>
+        function compute(event){
+            var Eid = event.target.id;
+            var fn = document.getElementById("first-number").value;
+            var sn = document.getElementById("second-number").value;
+            var rslt = document.getElementById('result');
+            switch(Eid){
+                case "add-btn":
+                rslt.innerHTML='运算结果:'+(Number(fn)+Number(sn));
+                break;
+
+                case "minus-btn":
+                rslt.innerHTML='运算结果:'+(Number(fn)-Number(sn));
+                break;
+
+                case "times-btn":
+                rslt.innerHTML='运算结果:'+(Number(fn)*Number(sn));
+                break;
+
+                case "divide-btn":
+                    if(sn==0){
+                        alert('被除数不能为0');
+                    }
+                    else{
+                        rslt.innerHTML='运算结果:'+(Number(fn)/Number(sn));
+                    }
+                break;
+            }
+        };
+    </script>
+</body>
+</html>

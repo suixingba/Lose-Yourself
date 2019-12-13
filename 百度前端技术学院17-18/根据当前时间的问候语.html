@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function time(){
+            var Time=new Date();
+            //实例化日期对象
+            var Now=Time.toTimeString();
+            //将对象格式化为以时、分、秒和时区显示的字符串
+            var NowNumber=parseInt(Now.replace(/:/g,""));
+            //将格式化后的字符串的':'替换为空并转换为Number类型
+            var M=100000;
+            var N=130000;
+            var A=180000;
+            if(NowNumber<=M){
+                //比较大小
+                alert('早上好');
+            }
+            else if(NowNumber<=N){
+                alert('中午好');
+            }
+            else if(NowNumber<=A){
+                alert('下午好');
+            }
+            else{
+                alert('晚上好');
+            }
+        };
+        time();
+    </script>
+</body>
+</html>
