@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #smil {
+            background-image: url(../img/帧动画.jpg);
+            background-position: 480px 0px;
+            width: 480px;
+            height: 480px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='smil'></div>
+    <script>
+        var smil = document.getElementById('smil');
+        var positionY = 0;
+        var face_in = function () {
+            var mysiv1 = setInterval(() => {
+                positionY -= 480;
+                smil.style.backgroundPositionY = positionY + 'px';
+                if (positionY == -7680) {
+                    clearInterval(mysiv1);
+                    face_out()
+                }
+            }, 150)
+        }
+        var face_out = function () {
+            var mysiv2 = setInterval(() => {
+                positionY += 480;
+                smil.style.backgroundPositionY = positionY + 'px';
+                if (positionY == 0) {
+                    clearInterval(mysiv2);
+                    face_in()
+                }
+            }, 150)
+        }
+        face_in()
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="fade-obj" style="width:300px;height:300px;background:#000">111</div>
+    <button id="fade-btn">淡出</button>
+</body>
+<script>
+    var fb = document.getElementById('fade-btn');
+    var fo = document.getElementById('fade-obj');
+    var i = 1;
+    function myfade() {
+        if (fb.innerHTML == '淡出') {
+            var sto = setTimeout(function () {
+                i -= 0.01;
+                fo.style.opacity = i;
+                fb.disabled = true;
+                setTimeout(myfade, 30);
+            }, 30)
+            if (i <= 0) {
+                clearTimeout(sto);
+                fb.disabled = false;
+                fb.innerHTML = '淡入';
+            }
+        }
+        else {
+            var si = setInterval(function () {
+                i += 0.01;
+                fo.style.opacity = i;
+                fb.disabled = true;
+                if (i > 1) {
+                    clearInterval(si);
+                    fb.disabled = false;
+                    fb.innerHTML = '淡出';
+                }
+            }, 30)
+        }
+    }
+    fb.onclick = myfade;
+</script>
+
+</html>

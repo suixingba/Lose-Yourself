@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>IFE ECMAScript</title>
+    <style>
+        .palette {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .palette li {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #000;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="palette">
+        <li style="background-color:crimson"></li>
+        <li style="background-color:bisque"></li>
+        <li style="background-color:blueviolet"></li>
+        <li style="background-color:coral"></li>
+        <li style="background-color:chartreuse"></li>
+        <li style="background-color:darkolivegreen"></li>
+        <li style="background-color:cyan"></li>
+        <li style="background-color:#194738"></li>
+    </ul>
+
+    <p class="color-picker"></p>
+
+    <script>
+        var list = document.querySelectorAll("li");
+        //获取所有li,返回的是一个类数组
+        for (var i = 0; i < list.length; i++) {
+            //利用for循环给每一个li添加点击事件
+            list[i].onclick = function (e) {
+                var t = e.target;
+                //获取触发当前事件的元素
+                var c = t.style.backgroundColor;
+                //获取元素的背景颜色
+                var p = document.getElementsByClassName("color-picker")[0]
+                //获取第一个p元素
+                p.innerHTML = c;
+                //将背景颜色显示在p元素中
+                p.style.color = c;
+                //将p元素的内容颜色设置成背景颜色
+            }
+        }
+    </script>
+</body>
+
+</html>
