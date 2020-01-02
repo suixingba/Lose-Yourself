@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+实现一个字符串头尾去除空格的函数
+注意需要去除的空格，包括全角、半角空格
+暂时不需要学习和使用正则表达式的方式
+*/
+        function diyTrim(str) {
+            var result = "";
+
+            // do something
+            var arr = [];
+            //创建一个空数组
+            for (i = 0; i < str.length; i++) {
+                var a = str.substr(i, 1);
+                //每次循环取出一个字符,从字符串索引值0开始
+                if (a != ' ' && a != '　') {
+                    //如果每次循环取出的字符都不是半角空格或全角空格
+                    arr.push(i);
+                    //就把这个字符的索引值添加到数组的尾部
+                }
+            }
+            result = str.slice(arr[0], arr[arr.length - 1] + 1);
+            //用slice方法提取字符串的部分,
+            //起始位置是数组的第一个值(也就是参数字符串中第一个不为空格的字符的索引值),
+            //结束位置是数组的最后一个值(也就是不为空格的最后一个字符的索引值)+1,
+            //因为slice方法结束位置不包括参数索引值位置的字符,故+1.
+
+            return result
+        }
+
+        // 测试用例
+        console.log(diyTrim(' a f b   ')); // ->a f b
+        console.log(diyTrim('    ffdaf    ')); // ->ffdaf
+        console.log(diyTrim('1    ')); // ->1
+        console.log(diyTrim('　　f')); // ->f
+        console.log(diyTrim('  　  a f b 　　 ')); // ->a f b
+        console.log(diyTrim(' ')); // ->
+        console.log(diyTrim('　')); // ->
+        console.log(diyTrim('')); // ->
+
+        /*
+        去掉字符串str中，连续重复的地方
+        */
+        function removeRepetition(str) {
+            var result = "";
+            //空字符串
+            // do something
+            for (var i = 0; i < str.length; i++) {
+                var a = str.substr(i, 1);
+                //每次循环取出一个字符,从字符串索引值0开始
+                if (result.charAt(result.length - 1) != a) {
+                    //每次循环取出result字符串中的最后一个字符与a中的字符作比较
+                    result += a;
+                    //如果两个字符不一样,就将a中的字符加到result字符串的后面
+                }
+            }
+
+            return result;
+        }
+        // 测试用例
+        console.log(removeRepetition("aaa")); // ->a
+        console.log(removeRepetition("abbba")); // ->aba
+        console.log(removeRepetition("aabbaabb")); // ->abab
+        console.log(removeRepetition("")); // ->
+        console.log(removeRepetition("abc")); // ->abc
+    </script>
+</body>
+
+</html>

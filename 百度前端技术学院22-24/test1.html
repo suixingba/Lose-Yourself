@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <label>Number A:<input id="radio-a" type="radio" name="math-obj" value="a"></label>
+        <input id="num-a" type="text">
+        <label>Number B:<input id="radio-b" type="radio" name="math-obj" value="b"></label>
+        <input id="num-b" type="text">
+    </div>
+    <div>
+        <button>判断当前选中的输入框输入内容是否为数字</button>
+        <button>把 A 四舍五入为 B 个小数位数的数字</button>
+        <button>当前选中数字的绝对值</button>
+        <button>对当前选中的数字进行上舍入</button>
+        <button>对当前选中的数字进行下舍入</button>
+        <button>把当前选中的数字四舍五入为最接近的整数</button>
+        <button>返回 A 和 B 中的最高值</button>
+        <button>返回 A 和 B 中的最低值</button>
+    </div>
+    <p id="result"></p>
+    <script>
+        var Div = document.querySelectorAll('div')[1];
+        //获取页面中的第二个div
+        var Button = document.querySelectorAll('Div>button');
+        //获取div下的按钮
+        Div.onclick = function (e) {
+            var target = e.target;
+            //获取当前点击的元素
+            var radioa = document.getElementById('radio-a').checked;
+            //获取第一个单选按钮是否被选中的值 true or false
+            var radiob = document.getElementById('radio-b').checked;
+            //获取第二个单选按钮是否被选中的值 true or false
+            var numa = document.getElementById('num-a');
+            //获取第一个输入框
+            var numb = document.getElementById('num-b');
+            //获取第二个输入框
+            var result = document.getElementById('result');
+            //获取p标签
+            for (i = 1; i < Button.length; i++) {
+                Button[i].onclick = function () {
+                    if (parseFloat(numa.value) == numa.value) {
+                        console.log('NumberA是数字');
+                    } else {
+                        console.log('NumberA不是数字');
+                    }
+                    if (parseFloat(numb.value) == numb.value) {
+                        console.log('NumberB是数字');
+                    } else {
+                        console.log('NumberB不是数字');
+                    }
+                }
+            }//除第一个按钮，其他按钮判断是不是数字，结果打印在控制台
+
+            if (radioa == true) {       //判断按钮是否选中
+                if (target == Button[0]) {
+                    if (parseFloat(numa.value) == numa.value) {
+                        result.innerHTML = '是数字';
+                    } else {
+                        result.innerHTML = '不是数字';
+                    }
+                }
+                //判断当前选中的输入框内容是不是数字
+                if (target == Button[2]) {
+                    result.innerHTML = Math.abs(parseFloat(numa.value));
+                }
+                //当前选中数字的绝对值
+                if (target == Button[3]) {
+                    result.innerHTML = Math.ceil(parseFloat(numa.value));
+                }
+                //当前选中数字进行上舍入
+                if (target == Button[4]) {
+                    result.innerHTML = Math.floor(parseFloat(numa.value));
+                }
+                //当前选中数字进行下舍入
+                if (target == Button[5]) {
+                    result.innerHTML = Math.round(parseFloat(numa.value));
+                }
+                //当前选中数字四舍五入为最接近的整数
+            } else if (radiob == true) {            //判断按钮是否被选中
+                if (target == Button[0]) {
+                    if (parseFloat(numb.value) == numb.value) {
+                        result.innerHTML = '是数字';
+                    } else {
+                        result.innerHTML = '不是数字';
+                    }
+                }
+                //判断当前选中的输入框内容是不是数字
+                if (target == Button[2]) {
+                    result.innerHTML = Math.abs(parseFloat(numb.value));
+                }
+                //当前选中数字的绝对值
+                if (target == Button[3]) {
+                    result.innerHTML = Math.ceil(parseFloat(numb.value));
+                }
+                //当前选中数字进行上舍入
+                if (target == Button[4]) {
+                    result.innerHTML = Math.floor(parseFloat(numb.value));
+                }
+                //当前选中数字进行下舍入
+                if (target == Button[5]) {
+                    result.innerHTML = Math.round(parseFloat(numb.value));
+                }
+                //当前选中数字四舍五入为最接近的整数
+            }
+            if (target == Button[1]) {
+                result.innerHTML = parseFloat(numa.value).toFixed(numb.value);
+            }
+            //把A四舍五入为B个小数位数的数字
+            if (target == Button[6]) {
+                result.innerHTML = Math.max(parseFloat(numa.value), parseFloat(numb.value));
+            }
+            //返回A和B中的最大值
+            if (target == Button[7]) {
+                result.innerHTML = Math.min(parseFloat(numa.value), parseFloat(numb.value));
+            }
+            //返回A和B中的最小值
+        }
+
+    </script>
+</body>
+
+</html>

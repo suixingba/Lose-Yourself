@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <label>String A:
+            <input id="radio-a" type="radio" checked="true" name="str-obj" value="a">
+        </label>
+        <textarea id="str-a"></textarea>
+        <label>String B:
+            <input id="radio-b" type="radio" name="str-obj" value="b">
+        </label>
+        <textarea id="str-b"></textarea>
+        <label>Num A：<input id="num-a" type="number" value="0"></label>
+        <label>Num B：<input id="num-b" type="number" value="1"></label>
+    </div>
+    <div>
+        <button>获取当前选中输入的内容长度</button>
+        <button>当前选中输入中的第3个字符</button>
+        <button>把两个输入框的文字连接在一起输出（concat）</button>
+        <button>输入B中的内容，在输入A的内容中第一次出现的位置（indexOf）</button>
+        <button>输入A中的内容，在输入B的内容中最后一次出现的位置（lastIndexOf）</button>
+        <button>使用slice获取选中输入框内容的部分内容，参数为num-a及num-b</button>
+        <button>当前选中输入框的行数</button>
+        <button>使用substr获取选中输入框内容的子字符串，参数为num-a及num-b</button>
+        <button>把所选输入框中的内容全部转为大写</button>
+        <button>把所选输入框中的内容全部转为小写</button>
+        <button>把所选输入框中内容的半角空格全部去除</button>
+        <button>把所选输入框中内容的a全部替换成另外一个输入框中的内容</button>
+    </div>
+    <p id="result"></p>
+    <script>
+        var Div = document.querySelectorAll('div')[1];
+        var Button = Div.querySelectorAll('button');
+        Div.onclick = function (e) {
+            var target = e.target;
+            //接收触发事件的元素
+            var radioA = document.getElementById('radio-a').checked;
+            //获取第一个单选按钮的选中状态
+            var radioB = document.getElementById('radio-b').checked;
+            //获取第一个单选按钮的选中状态
+            var strA = document.getElementById('str-a').value;
+            //获取第一个多行文本框的内容
+            var strB = document.getElementById('str-b').value;
+            //获取第一个多行文本框的内容
+            var numA = document.getElementById('num-a').value;
+            //获取第一个数字输入框的内容
+            var numB = document.getElementById('num-b').value;
+            //获取第一个数字输入框的内容
+            var result = document.getElementById('result');
+            //获取P元素
+            if (radioA == true) {       //判断单选按钮是否选中
+                switch (target) {
+                    case Button[0]:
+                        var length = strA.length;
+                        result.innerHTML = length;
+                        break;
+                    //获取当前选中输入的内容长度
+
+                    case Button[1]:
+                        result.innerHTML = strA.charAt(2);
+                        break;
+                    //当前选中输入中的第三个字符
+
+                    case Button[5]:
+                        result.innerHTML = strA.slice(numA, numB);
+                        break;
+                    //slice放法获取选中输入框内容的部分内容
+
+                    case Button[6]:
+                        break;
+                    //当前选中输入框的行数--未实现
+
+                    case Button[7]:
+                        result.innerHTML = strA.substr(numA, numB);
+                        break;
+                    //substr方法获取选中输入框的子字符串
+
+                    case Button[8]:
+                        result.innerHTML = strA.toUpperCase(numA);
+                        break;
+                    //将所选输入框的内容全部转为大写
+
+                    case Button[9]:
+                        result.innerHTML = strA.toLowerCase(numA);
+                        break;
+                    //将所选输入框的内容全部转为小写
+
+                    case Button[10]:
+                        // result.innerHTML=strA.replace(/ /g,'');
+                        //1.用replace方法将半角空格替换为空
+                        result.innerHTML = strA.split(' ').join('');
+                        //2.用split方法以半角空格为分隔符将字符串转换为数组,后用数组方法join以空字符为分隔符将数组转换为字符串
+                        break;
+
+                    //将所选输入框中内容的半角空格全部去除
+                    case Button[11]:
+                        result.innerHTML = strA.replace(/a/g, strB);
+                        break;
+                    //将所选输入框中内容为a的全部替换为另一个输入框的内容
+                }
+            } else if (radioB == true) {       //判断单选按钮是否选中
+                switch (target) {
+                    case Button[0]:
+                        var length = strB.length;
+                        result.innerHTML = length;
+                        break;
+                    //获取当前选中输入的内容长度
+
+                    case Button[1]:
+                        result.innerHTML = strB.charAt(2);
+                        break;
+                    //当前选中输入中的第三个字符
+
+                    case Button[5]:
+                        result.innerHTML = strB.slice(numA, numB);
+                        break;
+                    //slice放法获取选中输入框内容的部分内容
+
+                    case Button[6]:
+                        break;
+                    //当前选中输入框的行数--未实现
+
+                    case Button[7]:
+                        result.innerHTML = strB.substr(numA, numB);
+                        break;
+                    //substr方法获取选中输入框的子字符串
+
+                    case Button[8]:
+                        result.innerHTML = strB.toUpperCase(numA);
+                        break;
+                    //将所选输入框的内容全部转为大写
+
+                    case Button[9]:
+                        result.innerHTML = strB.toLowerCase(numA);
+                        break;
+                    //将所选输入框的内容全部转为小写
+
+                    case Button[10]:
+                        // result.innerHTML=strB.replace(/ /g,'');
+                        //1.用replace方法将半角空格替换为空
+                        result.innerHTML = strB.split(' ').join('');
+                        //2.用split方法以半角空格为分隔符将字符串转换为数组,后用数组方法join以空字符为分隔符将数组转换为字符串
+                        break;
+
+                    //将所选输入框中内容的半角空格全部去除
+                    case Button[11]:
+                        result.innerHTML = strB.replace(/a/g, strA);
+                        break;
+                    //将所选输入框中内容为a的全部替换为另一个输入框的内容
+                }
+            }
+            switch(target){
+                case Button[2]:
+                result.innerHTML=strA.concat(strB);
+                break;
+                //把两个输入框的文字连接在一起输出
+
+                case Button[3]:
+                result.innerHTML=strA.indexOf(strB);
+                //输入框B中的内容在输入框A中第一次出现的位置
+
+                case Button[4]:
+                result.innerHTML=strB.lastIndexOf(strA);
+                //输入框A中的内容在输入框B中最后一次出现的位置
+            }
+        }
+    </script>
+</body>
+
+</html>
