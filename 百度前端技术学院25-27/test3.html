@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <select id="year-select"></select>
+        <select id="month-select"></select>
+        <select id="day-select"></select>
+        <select id="hour-select"></select>
+        <select id="minite-select"></select>
+        <select id="second-select"></select>
+        <p id="result-wrapper"></p>
+    </div>
+    <script>
+        var y = document.getElementById('year-select')
+        var m = document.getElementById('month-select')
+        var d = document.getElementById('day-select')
+        var h = document.getElementById('hour-select')
+        var mi = document.getElementById('minite-select')
+        var s = document.getElementById('second-select')
+        var p = document.getElementById('result-wrapper')
+        function myAppendChild(id, start, end) {
+            var Id = document.getElementById(id)
+            for (i = start; i <= end; i++) {
+                var option = document.createElement('option');
+                option.value = i;
+                option.innerHTML = i;
+                Id.appendChild(option);
+            }
+        }
+        //给元素添加节点
+
+        function remove() {
+            var daySelect = document.getElementById('day-select');
+            var dayoption = daySelect.childNodes;
+            for (var i = dayoption.length - 1; i >= 0; i--) {
+                daySelect.removeChild(dayoption[i]);
+            }
+        }
+        //删除元素下的节点
+
+        function changeday() {
+            var yearSelect = document.getElementById('year-select');
+            var monthSelect = document.getElementById('month-select');
+            if (((yearSelect.value % 4 == 0 && yearSelect.value % 100 != 0) || yearSelect.value % 400 == 0) && monthSelect.value === '2') {
+                remove()
+                myAppendChild('day-select', 1, 29)
+            }
+            else if (monthSelect.value === '2') {
+                remove()
+                myAppendChild('day-select', 1, 28)
+            }
+            else {
+                switch (monthSelect.value) {
+                    case '1':
+                    case '3':
+                    case '5':
+                    case '7':
+                    case '10':
+                    case '12':
+                        remove()
+                        myAppendChild('day-select', 1, 31);
+                        break;
+                    case '4':
+                    case '6':
+                    case '9':
+                    case '11':
+                        remove()
+                        myAppendChild('day-select', 1, 30);
+                        break;
+                }
+            }
+        }
+        //判断年份更新二月份有多少天，以及大小月份的天数
+
+        function distance() {
+            var y = document.getElementById('year-select')
+            var m = document.getElementById('month-select')
+            var d = document.getElementById('day-select')
+            var h = document.getElementById('hour-select')
+            var mi = document.getElementById('minite-select')
+            var s = document.getElementById('second-select')
+            var time = new Date(y.value, m.value - 1, d.value, h.value, mi.value, s.value)
+            var nowtime = new Date()
+            var differ = Math.abs(nowtime - time);
+            var days = parseInt(differ / (1000 * 60 * 60 * 24));
+            var hours = parseInt((differ % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = parseInt((differ % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = parseInt((differ % (1000 * 60)) / 1000);
+            if (nowtime > time) {
+                return ('已经过去' + days + '天' + hours + '小时' + minutes + '分' + seconds + '秒')
+            }
+            else {
+                return ('还有' + days + '天' + hours + '小时' + minutes + '分' + seconds + '秒')
+            }
+        }
+        //获取选择的时间并与现在的时间相比较，将毫秒转化为天、时、分和秒
+
+        function getWeekDay(d) {
+            var weekDay = new Array(7);
+            weekDay[0] = '星期日';
+            weekDay[1] = '星期一';
+            weekDay[2] = '星期二';
+            weekDay[3] = '星期三';
+            weekDay[4] = '星期四';
+            weekDay[5] = '星期五';
+            weekDay[6] = '星期六';
+            return weekDay[d]
+        }
+        //返回星期几
+
+        function format() {
+            var date = new Date(y.value, m.value - 1, d.value, h.value, mi.value, s.value);
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var dt = date.getDate();
+            var day = date.getDay();
+            var hour = date.getUTCHours();
+            var minite = date.getMinutes();
+            var second = date.getSeconds();
+            return (year + '年' + month + '月' + dt + '日' + getWeekDay(day))
+        }
+        //将选择的日期格式化为年月日星期
+
+        myAppendChild('year-select', 1998, 2050)
+        myAppendChild('month-select', 1, 12)
+        myAppendChild('day-select', 1, 1)
+        myAppendChild('hour-select', 0, 23)
+        myAppendChild('minite-select', 0, 59)
+        myAppendChild('second-select', 0, 59)
+        p.innerHTML = '现在距离' + format() + distance()
+        //初始化选择框以及p标签
+
+        m.onchange = changeday
+        y.onchange = changeday
+        //给年份月份选择框添加时间，一旦改变就更新月份中的天数
+
+        var Div = document.getElementsByTagName('div')[0]
+        Div.onchange = function (e) {
+            var target = e.target;
+            if (target.nodeName == 'SELECT') {
+                distance()
+                format()
+                p.innerHTML = '现在距离' + format() + distance()
+            }
+        }
+        //时间委托，任一选择框内容改变后更新p标签中的内容
+    </script>
+</body>
+
+</html>
