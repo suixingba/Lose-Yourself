@@ -80,29 +80,6 @@
         }
         //判断年份更新二月份有多少天，以及大小月份的天数
 
-        function distance() {
-            var y = document.getElementById('year-select')
-            var m = document.getElementById('month-select')
-            var d = document.getElementById('day-select')
-            var h = document.getElementById('hour-select')
-            var mi = document.getElementById('minite-select')
-            var s = document.getElementById('second-select')
-            var time = new Date(y.value, m.value - 1, d.value, h.value, mi.value, s.value)
-            var nowtime = new Date()
-            var differ = Math.abs(nowtime - time);
-            var days = parseInt(differ / (1000 * 60 * 60 * 24));
-            var hours = parseInt((differ % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = parseInt((differ % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = parseInt((differ % (1000 * 60)) / 1000);
-            if (nowtime > time) {
-                return ('已经过去' + days + '天' + hours + '小时' + minutes + '分' + seconds + '秒')
-            }
-            else {
-                return ('还有' + days + '天' + hours + '小时' + minutes + '分' + seconds + '秒')
-            }
-        }
-        //获取选择的时间并与现在的时间相比较，将毫秒转化为天、时、分和秒
-
         function getWeekDay(d) {
             var weekDay = new Array(7);
             weekDay[0] = '星期日';
@@ -129,13 +106,30 @@
         }
         //将选择的日期格式化为年月日星期
 
+        function distance() {
+            var time = new Date(y.value, m.value - 1, d.value, h.value, mi.value, s.value)
+            var nowtime = new Date()
+            var differ = Math.abs(nowtime - time);
+            var days = parseInt(differ / (1000 * 60 * 60 * 24));
+            var hours = parseInt((differ % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = parseInt((differ % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = parseInt((differ % (1000 * 60)) / 1000);
+            if (nowtime > time) {
+                p.innerHTML= '现在距离'+format()+'已经过去' + days + '天' + hours + '小时' + minutes + '分' + seconds + '秒'
+            }
+            else {
+                p.innerHTML= '现在距离'+format()+'还有' + days + '天' + hours + '小时' + minutes + '分' + seconds + '秒'
+            }
+        }
+        //获取选择的时间并与现在的时间相比较，将毫秒转化为天、时、分和秒显示在页面上
+
         myAppendChild('year-select', 1998, 2050)
         myAppendChild('month-select', 1, 12)
         myAppendChild('day-select', 1, 1)
         myAppendChild('hour-select', 0, 23)
         myAppendChild('minite-select', 0, 59)
         myAppendChild('second-select', 0, 59)
-        p.innerHTML = '现在距离' + format() + distance()
+        var t1=setInterval(distance, 1000);
         //初始化选择框以及p标签
 
         m.onchange = changeday
@@ -146,9 +140,8 @@
         Div.onchange = function (e) {
             var target = e.target;
             if (target.nodeName == 'SELECT') {
-                distance()
-                format()
-                p.innerHTML = '现在距离' + format() + distance()
+                clearInterval(t);
+                setInterval(distance,1000)
             }
         }
         //时间委托，任一选择框内容改变后更新p标签中的内容

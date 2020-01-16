@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #email-sug-wrapper li:hover{
+            background: rgb(126, 126, 238);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <input id="email-input" type="text">
+        <ul id="email-sug-wrapper" class="email-sug"></ul>
+    </div>
+    <script>
+        var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net']
+        var input=document.getElementById('email-input')
+        var tips=document.getElementById('email-sug-wrapper')
+        input.oninput=function(){
+            input.value=trim(input.value)
+            emailSugWrapper()
+            showOrhide()
+        }
+        tips.onclick=function(e){
+            target=e.target
+            if(e.target.nodeName.toLowerCase()=='li'){
+                input.value=htmlDecode(target.innerHTML)
+                hide(tips)
+            }
+        }
+        
+        /*1.用浏览器内部转换器实现html转码*/
+        function htmlEncode(html){
+            //1.首先动态创建一个容器标签元素，如DIV
+            var temp = document.createElement ("div");
+            //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
+            (temp.textContent != undefined ) ? (temp.textContent = html) : (temp.innerText = html);
+            //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
+            var output = temp.innerHTML;
+            temp = null;
+            return output;
+        }
+        /*2.用浏览器内部转换器实现html解码*/
+        function htmlDecode(text){
+            //1.首先动态创建一个容器标签元素，如DIV
+            var temp = document.createElement("div");
+            //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
+            temp.innerHTML = text;
+            //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        
+        function trim(str){
+            var result=''
+            for(let i=0;i<str.length;i++){
+                var a= str.substr(i,1)
+                if(a != ' ' && a != '　'){
+                    result+=a
+                }
+            }
+            return result
+        }
+        //处理字符串中的空格
+
+        function foundLi(list){  
+            var iv=input.value
+            var prefix=iv
+            var suffix=''
+            var arr=[]
+            if(iv.indexOf('@')!=-1){
+                prefix=iv.slice(0,iv.indexOf('@'))
+                suffix=iv.slice(iv.indexOf('@')+1,iv.length)
+            }
+            for(let i=0; i<list.length;i++){
+                if(list[i].indexOf(suffix)!=-1){
+                    arr[i]=('<li>'+(htmlEncode(prefix)+'@'+list[i])+'</li>')
+                }
+            }
+            return arr.join('')
+        }
+        //实时获取输入框中内容进行拼接
+
+        function emailSugWrapper(){
+            var wrapper=document.getElementById('email-sug-wrapper')
+            wrapper.innerHTML=foundLi(postfixList)
+            
+        }
+        
+        //创建提示框内容
+
+        function show(elm){
+            elm.style.display='block'
+        }
+        //显示
+
+        function hide(elm){
+            elm.style.display='none'
+        }
+        //隐藏
+
+        function showOrhide(){
+            var ul=document.getElementById('email-sug-wrapper')
+            if(input.value===''){
+                hide(ul)
+            }else{
+                show(ul)
+            }
+        }
+        //判断显示隐藏
+    </script>
+</body>
+</html>
