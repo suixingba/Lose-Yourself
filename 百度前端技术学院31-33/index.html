@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>mis系统</title>
+    <style>
+        table {
+            width: 100%;
+            margin-bottom: 24px;
+            border-collapse: collapse;
+            border-spacing: 0;
+            empty-cells: show;
+            border: 1px solid #e9e9e9;
+        }
+
+        table th {
+            background: #f7f7f7;
+            color: #5c6b77;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        table td,
+        table th {
+            padding: 8px 16px;
+            border: 1px solid #e9e9e9;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="region-radio-wrapper"></div>
+    <div id="product-radio-wrapper"></div>
+    <div id='table-wrapper'></div>
+    <label for=""></label>
+    <script type="module">
+        import sourceData from './ife31data.js'
+        let regionSelect = document.getElementById('region-radio-wrapper')
+        let productSelect = document.getElementById('product-radio-wrapper')
+        function createCheckBox(container, option) {
+            let checkAll = document.createElement('input')
+            let label = document.createElement('label')
+            checkAll.type = 'checkbox'
+            checkAll.id = Math.random()
+            checkAll.checkboxType = 'all'
+            label.htmlFor = checkAll.id
+            label.innerHTML = '全选'
+            option.forEach((item) => {
+                let checkbox = document.createElement('input')
+                let label = document.createElement('label')
+                checkbox.type = 'checkbox'
+                checkbox.id = item.text
+                checkbox.value = item.text
+                label.htmlFor = item.text
+                label.innerHTML = item.text
+                container.appendChild(checkbox)
+                container.appendChild(label)
+            })
+            container.appendChild(checkAll)
+            container.appendChild(label)
+            container.onclick = (e) => {
+                if (e.target.type === 'checkbox') {
+                    let checkboxType = e.target.checkboxType
+                    let allCheckbox = container.querySelectorAll('input[type="checkbox"]')
+                    let allChecked = container.querySelectorAll('input[type="checkbox"]:checked')
+                    if (checkboxType === 'all') {
+                        allCheckbox.forEach((item) => {
+                            item.checked = true
+                        })
+                    } else {
+                        let checkedAll = Array.prototype.filter.call(allCheckbox, (item) => {
+                            return item.checkboxType === 'all'
+                        })
+                        let other = Array.prototype.filter.call(allCheckbox, (item) => {
+                            return item.checkboxType !== 'all'
+                        })
+                        if (allChecked.length < 1) {
+                            return false
+                        } else {
+                            let every = other.every((item) => {
+                                return item.checked === true
+                            })
+                            if (every) {
+                                checkedAll[0].checked = true
+                            } else {
+                                checkedAll[0].checked = false
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        let checkOne = [
+            {
+                value: '1',
+                text: '华东'
+            },
+            {
+                value: '2',
+                text: '华南'
+            },
+            {
+                value: '3',
+                text: '华北'
+            }
+        ]
+        let checkTwo = [
+            {
+                value: '1',
+                text: '手机'
+            },
+            {
+                value: '2',
+                text: '笔记本'
+            },
+            {
+                value: '3',
+                text: '智能音箱'
+            }
+        ]
+        createCheckBox(regionSelect, checkOne)
+        createCheckBox(productSelect, checkTwo)
+        regionSelect.onchange = () => {
+            //渲染新的表格（根据checkbox选项选取数据）
+            newTable(getData())
+        }
+        productSelect.onchange = () => {
+            //渲染新的表格（根据checkbox选项选取数据）
+            newTable(getData())
+        }
+        function getData() {
+            let regionSelect = document.getElementById('region-radio-wrapper')
+            let productSelect = document.getElementById('product-radio-wrapper')
+            let checkOne = regionSelect.querySelectorAll('input[type="checkbox"]:checked')
+            let checkTwo = productSelect.querySelectorAll('input[type="checkbox"]:checked')
+            let data = []
+            if (checkOne.length >= checkTwo.length) {
+                for (let i = 0; i < checkOne.length; i++) {
+                    for (let j = 0; j < sourceData.length; j++) {
+                        if (sourceData[j].region === checkOne[i].value) {
+                            if (checkTwo.length > 0) {
+                                for (let k = 0; k < checkTwo.length; k++) {
+                                    if (sourceData[j].region === checkOne[i].value && sourceData[j].product === checkTwo[k].value) {
+                                        data.push(sourceData[j])
+                                    }
+                                }
+                            } else {
+                                data.push(sourceData[j])
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (let i = 0; i < checkTwo.length; i++) {
+                    for (let j = 0; j < sourceData.length; j++) {
+                        if (sourceData[j].product === checkTwo[i].value) {
+                            if (checkOne.length > 0) {
+                                for (let k = 0; k < checkOne.length; k++) {
+                                    if (sourceData[j].product === checkTwo[i].value && sourceData[j].region === checkOne[k].value) {
+                                        data.push(sourceData[j])
+                                    }
+                                }
+                            } else {
+                                data.push(sourceData[j])
+                            }
+                        }
+                    }
+                }
+            }
+            return data
+        }
+        function newTable(data) {
+            data = data.map(o => ({ ...o }))
+            let Div = document.getElementById('table-wrapper')
+            let checkOne = regionSelect.querySelectorAll('input[type="checkbox"]:checked')
+            let checkTwo = productSelect.querySelectorAll('input[type="checkbox"]:checked')
+            let otherOne = Array.prototype.filter.call(checkOne, (item) => {
+                return item.checkboxType !== 'all'
+            })
+            let otherTwo = Array.prototype.filter.call(checkTwo, (item) => {
+                return item.checkboxType !== 'all'
+            })
+            let table = document.createElement('table')
+            let thead = document.createElement('thead')
+            let tbody = document.createElement('tbody')
+            let trh = document.createElement('tr')
+            let th = (function () {
+                if (checkOne.length < checkTwo.length) {
+                    return ['地区', '商品', '1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+                } else {
+                    return ['商品', '地区', '1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+                }
+            })()
+            if (checkOne.length < checkTwo.length) {
+                data.forEach((item) => {
+                    [item.product, item.region] = [item.region, item.product]
+                })
+            }
+            data.sort((a, b) => {
+                return a.product.localeCompare(b.product)
+            })
+            th.forEach((index) => {
+                let th = document.createElement('th')
+                th.innerHTML = index
+                trh.appendChild(th)
+            })
+            let a = []
+            data.forEach((item) => {
+                let tr = document.createElement('tr')
+                tbody.appendChild(tr)
+                for (let [key, val] of Object.entries(item)) {
+                    let td = document.createElement('td')
+                    if (typeof (val) !== 'object') {
+                        if (key === 'product') {
+                            if (a.includes(val)) {
+                                val = ''
+                            } else {
+                                a.push(val)
+                                if (otherOne.length < otherTwo.length) {
+                                    td.rowSpan = otherTwo.length
+                                } else {
+                                    td.rowSpan = otherOne.length
+                                }
+                                td.innerHTML = val
+                                tr.appendChild(td)
+                            }
+                        } else {
+                            td.innerHTML = val
+                            tr.appendChild(td)
+                        }
+                    } else {
+                        for (let v of Object.values(val)) {
+                            let td = document.createElement('td')
+                            td.innerHTML = v
+                            tr.appendChild(td)
+                        }
+                    }
+                }
+            })
+            let child = Div.childNodes
+            for (let i = child.length - 1; i >= 0; i--) {
+                Div.removeChild(child[i])
+            }
+            Div.appendChild(table)
+            table.appendChild(thead)
+            thead.appendChild(trh)
+            table.appendChild(tbody)
+        }
+    </script>
+</body>
+
+</html>
