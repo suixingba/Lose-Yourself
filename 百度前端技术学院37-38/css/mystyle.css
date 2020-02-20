@@ -1,0 +1,48 @@
+table {
+    width: 100%;
+    margin-bottom: 24px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: show;
+    border: 1px solid #e9e9e9;
+}
+
+table th {
+    background: #f7f7f7;
+    color: #5c6b77;
+    font-weight: 600;
+    white-space: nowrap;
+}
+#edit{
+    position: relative;
+}
+#edit:hover::before{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url('../../img/编辑.png') no-repeat;
+    background-size:100% 100%;
+}
+table td,
+table th {
+    padding: 8px 16px;
+    border: 1px solid #e9e9e9;
+    text-align: center;
+}
+#table-img{
+    width: 100%;
+    margin: 30px 0;
+}
+#table-bar-wrapper{
+    text-align: center;
+    width: 50%;
+    display: inline-block;
+}
+#table-line-wrapper{
+    text-align: center;
+    display: inline-block;
+}

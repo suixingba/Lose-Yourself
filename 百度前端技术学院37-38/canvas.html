@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="a"></div>
+    
+    <script>
+        let a=document.getElementById('a')
+        let canvas=document.createElement('canvas')
+        canvas.setAttribute('width','300')
+        canvas.setAttribute('height','300')
+        let ctx=canvas.getContext('2d')
+        ctx.fillStyle='rgb(100,-150,255)'
+        ctx.beginPath();
+    ctx.moveTo(75, 50);
+    ctx.lineTo(100, 75);
+    ctx.lineTo(100, 25);
+    ctx.fill();
+        a.appendChild(canvas)
+        
+    </script>
+</body>
+</html>

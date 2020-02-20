@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #myRect:hover{
+            fill:#fff
+        }
+    </style>
+</head>
+<body>
+
+<div id="Div"></div>
+
+
+
+    <script src="./js/ife31data.js"></script>
+    <script src="./js/bar.js"></script>
+    <svg width='500' height='500'>
+        <rect  id='myRect' x="0" y="0" width="100" height="100" fill='red'/>
+        <circle cx='50' cy='50' r='50' fill='blue'></circle>
+        <ellipse cx='50' cy='50' rx='25' ry='40' fill='yellow'></ellipse>
+        <line x1='25' x2='75' y1='50' y2='50' stroke='#000' stroke-width='3'></line>
+        <polygon points='50,10 25,50 75,50' fill='#fff' stroke='#000' stroke-width='3'></polygon>
+        <polyline points='25,50 50,90 75,50' fill='#000' stroke='#fff' stroke-width='3'></polyline>
+        <text x='27.5' y='54' font-size='20px'>aaaa</text>
+    </svg>
+    <!-- fill属性定义填充颜色
+    stroke-width属性定义边框的宽度
+    stroke属性定义边框的颜色
+    fill-opacity属性定义填充颜色透明度
+    stroke-opacity属性定义边框颜色透明度
+    opacity属性定义整个元素的透明度
+    rx，ry属性使矩形产生圆角 -->
+</body>
+</html>
