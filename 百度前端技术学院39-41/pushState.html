@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="a">A</button>
+    <button id="b">B</button>
+    <button id="c">C</button>
+    <div id="cont"></div>
+    <script>
+        let Div=document.getElementById('cont')
+        let btn=document.querySelectorAll('button')
+        btn.forEach((item)=>{
+            item.onclick=function(){
+                history.pushState(item.innerHTML,null,`#${item.innerHTML}`)
+                get()
+                console.log(window.history)
+            }
+        })
+        function get(){
+            let getHash=location.hash
+            let set=history.replaceState(getHash,null,getHash)
+            Div.innerHTML=history.state
+        }
+        get()
+        window.onpopstate=function(){
+            get()
+        }
+    </script>
+</body>
+
+</html>
