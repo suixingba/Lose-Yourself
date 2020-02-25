@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Restaurant({ cash, seats, staff }) {
+            this.cash = cash
+            this.seats = seats
+            this.staff = []
+        }
+        //餐厅类
+        Restaurant.prototype.hire = function (member) {
+            this.staff.push(member)
+        }
+        //添加雇员
+        Restaurant.prototype.fire = function (member) {
+            let index = this.staff.findIndex(m => m === member)
+            if (index === -1) {
+                alert('查无此人')
+            } else {
+                this.staff.splice(index, 1)
+            }
+        }
+        //解雇
+
+        function Staff(id, name, salary) {
+            this.id = id
+            this.name = name
+            this.salary = salary
+        }
+        //职业类
+        Staff.prototype.work = function () {
+
+        }
+        //完成工作
+        function Waiter(id, name, salary) {
+            Staff.call(this, id, name, salary)
+            this.list = []
+        }
+        Waiter.prototype = {
+            get(customer, ...food) {
+                this.list.push({
+                    customer,
+                    food
+                })
+                console.log(`我记下了,客人${customer}点的菜是${food}`)
+                DingDong.waiter=`${food}`
+            },
+            send(food) {
+                this.list.forEach((val, i) => {
+                    if (val.food.includes(food)) {
+                        let index = val.food.findIndex(f => f === food)
+                        val.food.splice(index, 1)
+                        console.log(`客人${val.customer},你的${food}来了`)
+                        if (val.food.length === 0) {
+                            this.list.splice(i, 1)
+                            console.log(`客人${val.customer},你的菜上齐了`)
+                        }
+                    }
+                })
+            }
+        }
+        //服务员类
+        function Cook(id, name, salary) {
+            Staff.call(this, id, name, salary)
+            this.food = []
+            this.count = {}
+        }
+        Cook.prototype = {
+            stir(...food) {
+                this.food.push(...food)
+                this.count = this.food.reduce(function (prev, next) {
+                    prev[next] = (prev[next] + 1) || 1;
+                    return prev;
+                }, {})
+                let time = setInterval(() => {
+                    if (this.food.length === 0) {
+                        clearInterval(time)
+                    } else {
+                        console.log(`小二,${this.food[0]},${this.count[this.food[0]]}份`)
+                        DingDong.cook=`${this.food[0]}`
+                        delete this.count[this.food[0]]
+                        let compare = this.food[0]
+                        this.food = this.food.filter(v => v !== compare)
+                    }
+                }, 3000)
+            }
+        }
+        //厨师类
+        function Customer() {
+            this.food = []
+        }
+        Customer.prototype = {
+            order(menu) {
+                this.food.push(menu[Math.floor((Math.random() * menu.length))])
+                console.log('我点好了')
+                DingDong.customer=this.food
+            },
+            eat() {
+                setTimeout(() => {
+                    this.food = []
+                    console.log('我吃完了')
+                }, 1000)
+            }
+        }
+        //顾客类
+        function Food() { this.menu = [] }
+        Food.prototype = {
+            addMenu(...arg) {
+                let len = arg.length
+                for (let i = 0; i < len; i++) {
+                    this.menu.push({
+                        name: arg[i].name,
+                        cost: arg[i].cost,
+                        price: arg[i].price
+
+                    })
+                }
+            },
+            getMenu() {
+                let Menu = this.menu.map(i => ({ ...i }))
+                Menu.forEach((item) => {
+                    delete item.cost
+                })
+                return Menu
+            }
+        }
+        //菜品类
+        let SingleWaiter = (function () {
+            let instance
+            return function (id, name, salary) {
+                if (!instance) {
+                    instance = new Waiter(id, name, salary)
+                }
+                return instance
+            }
+        })()
+        //服务员单例
+        let SingleCook = (function () {
+            let instance
+            return function (id, name, salary) {
+                if (!instance) {
+                    instance = new Cook(id, name, salary)
+                }
+                return instance
+            }
+        })()
+        //厨师单例
+        let Event = (function () {
+            let list = [], publish, subscribe, Unsubscribe, subUid = -1
+            publish = function () {
+                if (!list[name]) {
+                    return false
+                }
+                (function () {
+                    subscribes = list[name]
+                    len = subscribes ? subscribes.length : 0
+                    while (len--) {
+                        subscribes[len].func()
+                    }
+                })()
+            }
+            subscribes = function () {
+                if (!list[name]) {
+                    list[name] = []
+                }
+                let token = (++subUid).toString()
+                list[name].push({
+                    token: token,
+                    func: func
+                })
+            }
+
+        })
+        let restaurant1 = new Restaurant({
+            cash: 1000000,
+            seats: 1,
+            staff: []
+        });
+        //餐厅实例
+        let menu = [
+            {
+                name: '鱼香肉丝',
+                cost: 17,
+                price: 30
+            }, {
+                name: '农家小炒肉',
+                cost: 18,
+                price: 35
+            }, {
+                name: '清蒸鲈鱼',
+                cost: 20,
+                price: 40
+            }, {
+                name: '香菜拌牛肉',
+                cost: 19,
+                price: 35
+            }, {
+                name: '红烧狮子头',
+                cost: 15,
+                price: 30
+            }, {
+                name: '青椒炒鸡蛋',
+                cost: 7,
+                price: 20
+            }, {
+                name: '回锅肉',
+                cost: 17,
+                price: 30
+            }, {
+                name: '米饭',
+                cost: 1,
+                price: 2
+            }
+        ]
+        //菜单
+        let food = new Food()
+        //菜单实例
+        food.addMenu(...menu)
+        //创建菜单
+        let waiter1 = new SingleWaiter('01', 'waiter1', 3000)
+        //服务员实例
+        let cook1 = new SingleCook('01', 'cook1', 8000)
+        //厨师实例
+        restaurant1.hire(waiter1)
+        //餐厅雇用服务员
+        restaurant1.hire(cook1)
+        //餐厅雇用厨师
+        console.log(restaurant1)
+        var DingDong={
+            customer:'',
+            waiter:'',
+            cook:''
+        }
+        console.log(DingDong)
+        function run(){
+            let seat=0
+            if(seat===0){
+                let a=new Customer()
+                seat=1
+                a.order(food.getMenu())
+                waiter1.get('a',...DingDong.customer.map(v=>{
+                    return v.name
+                }))
+                cook1.stir(DingDong.waiter)
+                setTimeout(()=>{waiter1.send(`${DingDong.cook}`)},4000)
+                setTimeout(()=>{a.eat()},5000)
+            }
+        }
+        run()
+        setInterval(run,8000)
+    </script>
+</body>
+
+</html>
